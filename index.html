@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roster — Professional Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0eee8; --surface:#fff; --surface-2:#f5f3ee; --surface-3:#eceae3;
+  --ink:#1b1b18; --ink-soft:#5d5c55; --ink-faint:#8b897f;
+  --line:#e3e0d8; --line-strong:#d3cfc4;
+  --accent:#0f766e; --accent-ink:#0b5c56; --accent-soft:#d3e8e5; --accent-wash:#eef6f5;
+  --gold:#b45309; --danger:#b4322a; --blue:#1d5fb0; --green:#0f8a3d; --love:#c2410c;
+  --radius:12px; --radius-sm:9px;
+  --shadow-sm:0 1px 2px rgba(30,29,25,.06),0 1px 1px rgba(30,29,25,.04);
+  --shadow:0 2px 4px rgba(30,29,25,.05),0 6px 18px rgba(30,29,25,.06);
+  --shadow-lg:0 12px 40px rgba(30,29,25,.16);
+  --topbar-h:54px; --maxw:1128px;
+  --font-ui:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-display:'Bricolage Grotesque','Inter',sans-serif;
+}
+html[data-theme="dark"]{
+  --bg:#17181a; --surface:#1f2123; --surface-2:#26282b; --surface-3:#2d2f33;
+  --ink:#eceae4; --ink-soft:#a7a59d; --ink-faint:#78766f;
+  --line:#33353a; --line-strong:#43464c;
+  --accent:#38b2a5; --accent-ink:#5fcabd; --accent-soft:#1c3a37; --accent-wash:#1a2a29;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.4); --shadow:0 2px 6px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3); --shadow-lg:0 16px 48px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-ui);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea{font-family:inherit;font-size:inherit;color:inherit}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+::selection{background:var(--accent-soft);color:var(--accent-ink)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar:horizontal{height:8px}
+::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:6px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--ink-faint)}
+::-webkit-scrollbar-track{background:transparent}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:200;height:var(--topbar-h);background:var(--surface);border-bottom:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.topbar-inner{max-width:var(--maxw);margin:0 auto;height:100%;padding:0 20px;display:flex;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.brand-mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent-ink));display:grid;place-items:center;color:#fff;box-shadow:0 2px 6px rgba(15,118,110,.35)}
+.brand-mark svg{width:20px;height:20px}
+.brand-name{font-family:var(--font-display);font-weight:800;font-size:21px;letter-spacing:-.02em;color:var(--ink)}
+@media(max-width:900px){.brand-name{display:none}}
+.searchbox{position:relative;flex:0 0 300px;max-width:300px}
+.searchbox svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--ink-faint);pointer-events:none}
+.searchbox input{width:100%;height:36px;background:var(--surface-2);border:1px solid transparent;border-radius:8px;padding:0 12px 0 36px;transition:.15s}
+.searchbox input:focus{background:var(--surface);border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wash);outline:none}
+@media(max-width:720px){.searchbox{flex:1 1 auto;max-width:none}}
+.nav{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav-item{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;min-width:58px;color:var(--ink-faint);border-radius:8px;transition:.15s}
+.nav-item svg{width:22px;height:22px}
+.nav-item span{font-size:11.5px;font-weight:500;line-height:1}
+.nav-item:hover{color:var(--ink);background:var(--surface-2)}
+.nav-item.active{color:var(--ink)}
+.nav-item.active::after{content:"";position:absolute;bottom:-8px;left:8px;right:8px;height:2.5px;background:var(--accent);border-radius:2px}
+.nav-badge{position:absolute;top:2px;right:8px;min-width:16px;height:16px;padding:0 4px;background:var(--danger);color:#fff;font-size:10px;font-weight:700;line-height:16px;text-align:center;border-radius:9px;border:1.5px solid var(--surface)}
+@media(max-width:640px){.nav-item span{display:none}.nav-item{min-width:44px;padding:6px}}
+.nav-divider{width:1px;height:32px;background:var(--line);margin:0 4px}
+.me-menu{position:relative}
+.me-btn{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 8px;border-radius:8px;color:var(--ink-faint)}
+.me-btn:hover{background:var(--surface-2)}
+.me-btn img{width:26px;height:26px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
+.me-btn span{font-size:11px;display:flex;align-items:center;gap:1px}
+.me-btn span svg{width:12px;height:12px}
+.iconbtn{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;color:var(--ink-soft);transition:.15s}
+.iconbtn:hover{background:var(--surface-2);color:var(--ink)}
+.iconbtn svg{width:20px;height:20px}
+.dropdown{position:absolute;top:calc(100% + 8px);right:0;width:280px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-lg);overflow:hidden;z-index:300;opacity:0;visibility:hidden;transform:translateY(-6px);transition:.16s}
+.dropdown.open{opacity:1;visibility:visible;transform:none}
+.dd-head{padding:16px;display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--line)}
+.dd-head img{width:52px;height:52px;border-radius:50%;object-fit:cover}
+.dd-head b{display:block;font-size:15px}.dd-head small{color:var(--ink-soft)}
+.dd-viewbtn{margin:12px 16px 4px;display:block;width:calc(100% - 32px);text-align:center;border:1px solid var(--accent);color:var(--accent);border-radius:20px;padding:5px;font-weight:600}
+.dd-viewbtn:hover{background:var(--accent-wash)}
+.dd-sec{padding:8px 0;border-top:1px solid var(--line)}
+.dd-sec h6{padding:6px 16px;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);font-weight:700}
+.dd-link{display:block;padding:7px 16px;color:var(--ink-soft)}
+.dd-link:hover{background:var(--surface-2);color:var(--ink)}
+.dd-link.danger{color:var(--danger)}
+
+/* LAYOUT */
+.page{max-width:var(--maxw);margin:0 auto;padding:24px 20px 60px}
+.grid-3{display:grid;grid-template-columns:225px minmax(0,1fr) 300px;gap:24px;align-items:start}
+.grid-2{display:grid;grid-template-columns:225px minmax(0,1fr);gap:24px;align-items:start}
+.col-sticky{position:sticky;top:calc(var(--topbar-h) + 24px)}
+@media(max-width:1000px){.grid-3{grid-template-columns:minmax(0,1fr) 300px}.grid-3 .left-rail,.grid-2 .left-rail{display:none}.grid-2{grid-template-columns:1fr}}
+@media(max-width:820px){.grid-3{grid-template-columns:1fr}.grid-3 .right-rail{display:none}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
+.card + .card{margin-top:12px}
+
+/* LEFT PROFILE */
+.pcard-cover{height:56px;background:linear-gradient(120deg,#0f766e,#134e4a 60%,#1e6b62);position:relative}
+.pcard-body{padding:0 16px 16px;text-align:center}
+.pcard-ava{width:70px;height:70px;border-radius:50%;object-fit:cover;border:3px solid var(--surface);margin:-38px auto 0;box-shadow:var(--shadow-sm)}
+.pcard-name{font-family:var(--font-display);font-weight:700;font-size:16px;margin-top:8px;letter-spacing:-.01em}
+.pcard-role{color:var(--ink-soft);font-size:12.5px;margin-top:3px;line-height:1.35}
+.pcard-loc{color:var(--ink-faint);font-size:11.5px;margin-top:6px}
+.pcard-stats{border-top:1px solid var(--line);margin-top:14px;padding-top:6px}
+.pstat{display:flex;justify-content:space-between;padding:6px 16px;font-size:12px}
+.pstat:hover{background:var(--surface-2)}
+.pstat span{color:var(--ink-faint)}.pstat b{color:var(--accent);font-weight:600}
+.pcard-cta{display:block;padding:10px 16px;border-top:1px solid var(--line);font-size:13px;font-weight:600;color:var(--ink-soft)}
+.pcard-cta:hover{background:var(--surface-2);color:var(--ink)}
+.pcard-cta svg{width:15px;height:15px;vertical-align:-3px;margin-right:8px;color:var(--gold)}
+.railnav{margin-top:12px;padding:8px}
+.railnav a{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:8px;color:var(--ink-soft);font-weight:500}
+.railnav a:hover{background:var(--surface-2);color:var(--ink)}
+.railnav a svg{width:18px;height:18px;color:var(--ink-faint)}
+.railnav a.active{color:var(--accent);background:var(--accent-wash)}
+.railnav a.active svg{color:var(--accent)}
+
+/* RIGHT RAIL */
+.widget{padding:16px}
+.widget-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.widget-head h3{font-size:15px;font-weight:700;font-family:var(--font-display);letter-spacing:-.01em}
+.widget-head svg{width:16px;height:16px;color:var(--ink-faint)}
+.news-item{display:flex;gap:8px;padding:7px 0;align-items:flex-start;border-radius:6px}
+.news-item:hover{background:var(--surface-2);margin:0 -8px;padding:7px 8px;cursor:pointer}
+.news-dot{width:5px;height:5px;border-radius:50%;background:var(--ink-faint);margin-top:8px;flex-shrink:0}
+.news-item b{font-size:13px;font-weight:600;line-height:1.35;display:block}
+.news-item small{color:var(--ink-faint);font-size:11.5px}
+.news-more{margin-top:10px;color:var(--ink-soft);font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:5px;padding:6px 8px;border-radius:6px}
+.news-more:hover{background:var(--surface-2)}
+.promo{padding:16px;text-align:center}
+.promo small{color:var(--ink-faint);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.promo h4{font-family:var(--font-display);font-size:15px;margin:8px 0;line-height:1.35}
+.promo-img{width:100%;height:90px;border-radius:8px;object-fit:cover;margin:8px 0}
+.promo-btn{display:inline-block;border:1.5px solid var(--accent);color:var(--accent);border-radius:20px;padding:6px 18px;font-weight:600;font-size:13px}
+.promo-btn:hover{background:var(--accent-wash)}
+.sugg{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.sugg:last-child{border-bottom:none}
+.sugg img{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.sugg.page img{border-radius:8px}
+.sugg-info{flex:1;min-width:0}
+.sugg-info b{font-size:13.5px;display:block;font-weight:600}
+.sugg-info small{color:var(--ink-soft);font-size:12px;display:block;line-height:1.3;margin-top:1px}
+.sugg-mutual{color:var(--ink-faint);font-size:11px;margin-top:3px;display:flex;align-items:center;gap:4px}
+.sugg-mutual svg{width:12px;height:12px}
+.btn-connect{margin-top:6px;display:inline-flex;align-items:center;gap:5px;border:1.5px solid var(--ink-faint);color:var(--ink-soft);border-radius:18px;padding:4px 14px;font-weight:600;font-size:12.5px;transition:.15s}
+.btn-connect svg{width:14px;height:14px}
+.btn-connect:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-wash)}
+.btn-connect.pending{border-color:var(--line-strong);color:var(--ink-faint);background:var(--surface-2)}
+
+/* COMPOSER */
+.composer{padding:14px 16px}
+.composer-top{display:flex;gap:10px;align-items:center}
+.composer-top img{width:46px;height:46px;border-radius:50%;object-fit:cover}
+.composer-fake{flex:1;text-align:left;border:1px solid var(--line-strong);border-radius:26px;padding:0 18px;height:46px;color:var(--ink-soft);font-weight:500}
+.composer-fake:hover{background:var(--surface-2);border-color:var(--ink-faint)}
+.composer-actions{display:flex;justify-content:space-around;margin-top:10px}
+.comp-act{display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:8px;color:var(--ink-soft);font-weight:600;font-size:13px}
+.comp-act:hover{background:var(--surface-2)}
+.comp-act svg{width:20px;height:20px}
+.comp-act.media svg{color:#4f9cd4}.comp-act.event svg{color:#c99a3a}.comp-act.article svg{color:#c46b5a}
+@media(max-width:520px){.comp-act span{display:none}}
+.feed-sort{display:flex;align-items:center;gap:10px;margin:14px 4px 6px;color:var(--ink-faint);font-size:12px}
+.feed-sort::before{content:"";flex:1;height:1px;background:var(--line)}
+.feed-sort button{color:var(--ink-soft);font-weight:600;display:inline-flex;align-items:center;gap:3px}
+.feed-sort button svg{width:13px;height:13px}
+
+/* POST */
+.repost-ctx{display:flex;align-items:center;gap:8px;padding:10px 16px 0;color:var(--ink-faint);font-size:12.5px;font-weight:500}
+.repost-ctx svg{width:15px;height:15px}
+.repost-ctx b{color:var(--ink-soft);font-weight:600}
+.post-ctx{padding:8px 16px 0;color:var(--ink-faint);font-size:12px;border-bottom:0}
+.post-ctx b{color:var(--ink-soft)}
+.post-head{display:flex;gap:10px;padding:12px 16px 0}
+.post-head>img{width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.post-head.page>img{border-radius:9px}
+.post-meta{flex:1;min-width:0}
+.post-author{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.post-author b{font-size:14px;font-weight:600}
+.post-author .conn{color:var(--ink-faint);font-size:12px;font-weight:400}
+.post-author .conn::before{content:"·";margin-right:5px}
+.post-sub{color:var(--ink-soft);font-size:12px;line-height:1.3;margin-top:1px}
+.post-time{color:var(--ink-faint);font-size:12px;display:flex;align-items:center;gap:4px;margin-top:2px}
+.post-time svg{width:12px;height:12px}
+.post-follow{color:var(--accent);font-weight:600;font-size:13.5px;display:flex;align-items:center;gap:5px;flex-shrink:0;padding:5px 8px;border-radius:6px;height:fit-content}
+.post-follow:hover{background:var(--accent-wash)}
+.post-follow svg{width:15px;height:15px}
+.post-follow.following{color:var(--ink-faint)}
+.promoted-tag{color:var(--ink-faint);font-size:12px;margin-top:1px}
+.post-menu{display:flex;gap:2px;align-items:flex-start}
+.post-menu button{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--ink-faint)}
+.post-menu button:hover{background:var(--surface-2);color:var(--ink)}
+.post-menu button svg{width:18px;height:18px}
+.post-body{padding:10px 16px 4px;font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+.post-body .tag{color:var(--accent);font-weight:600}
+.post-more{color:var(--ink-faint);font-weight:500;cursor:pointer}
+.post-img{width:100%;max-height:520px;object-fit:cover;margin-top:8px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+/* embeds */
+.embed-link{margin:8px 16px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.embed-link img{width:100%;height:150px;object-fit:cover}
+.embed-link .eb{padding:10px 12px;background:var(--surface-2)}
+.embed-link .eb small{color:var(--ink-faint);font-size:11px;text-transform:lowercase}
+.embed-link .eb b{display:block;font-size:13.5px;margin-top:2px}
+.embed-doc{margin:8px 16px;border:1px solid var(--line-strong);border-radius:10px;overflow:hidden;background:#f6f4ef}
+html[data-theme="dark"] .embed-doc{background:var(--surface-2)}
+.embed-doc-page{aspect-ratio:4/3;background:linear-gradient(160deg,#fffdf7,#f0ede4);display:flex;flex-direction:column;justify-content:center;padding:28px 26px;position:relative}
+html[data-theme="dark"] .embed-doc-page{background:var(--surface-3)}
+.embed-doc-page h5{font-family:var(--font-display);font-size:22px;line-height:1.2;letter-spacing:-.01em;margin-bottom:10px}
+.embed-doc-page p{font-size:13px;color:var(--ink-soft);max-width:80%}
+.embed-doc-page .pg{position:absolute;bottom:10px;right:14px;font-size:11px;color:var(--ink-faint);background:var(--surface);padding:2px 8px;border-radius:10px;border:1px solid var(--line)}
+.embed-doc-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--surface-2);border-top:1px solid var(--line)}
+.embed-doc-bar svg{width:22px;height:22px;color:var(--danger)}
+.embed-doc-bar b{font-size:12.5px}.embed-doc-bar small{color:var(--ink-faint);font-size:11px;display:block}
+.embed-nl{margin:8px 16px;border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;gap:12px;align-items:center;background:var(--surface-2)}
+.embed-nl-ic{width:52px;height:52px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent-ink));display:grid;place-items:center;color:#fff;flex-shrink:0}
+.embed-nl-ic svg{width:24px;height:24px}
+.embed-nl b{font-size:14px;display:block}.embed-nl small{color:var(--ink-faint);font-size:11.5px}
+.embed-nl-btn{margin-left:auto;border:1.5px solid var(--accent);color:var(--accent);border-radius:18px;padding:4px 14px;font-weight:600;font-size:12.5px;flex-shrink:0}
+.embed-nl-btn:hover{background:var(--accent-wash)}
+.embed-nl-btn.on{border-color:var(--line-strong);color:var(--ink-faint)}
+
+.post-stats{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;font-size:12px;color:var(--ink-faint)}
+.react-faces{display:flex;align-items:center;gap:4px}
+.react-icons{display:flex}
+.react-icons span{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:10px;margin-left:-4px;border:1.5px solid var(--surface)}
+.react-icons span:first-child{margin-left:0}
+.rlike{background:#1d5fb0}.rcele{background:#0f9d58}.rinsi{background:#c99a3a}.rlove{background:#c2410c}.rsup{background:#7c3aed}
+.post-stats .sep{margin:0 4px}
+.post-stats a:hover{color:var(--accent);text-decoration:underline}
+.post-actions{display:flex;padding:4px 8px;border-top:1px solid var(--line)}
+.pact{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:9px;border-radius:8px;color:var(--ink-soft);font-weight:600;font-size:13.5px}
+.pact svg{width:20px;height:20px;transition:transform .15s}
+.pact:hover{background:var(--surface-2)}
+.pact:active svg{transform:scale(.85)}
+.pact.liked{color:var(--blue)}.pact.liked svg{fill:var(--blue)}
+.pact.reposted{color:var(--accent)}
+@media(max-width:520px){.pact span{display:none}}
+.comments{padding:4px 16px 14px;border-top:1px solid var(--line)}
+.comment-compose{display:flex;gap:8px;padding:10px 0;align-items:center}
+.comment-compose img{width:34px;height:34px;border-radius:50%;object-fit:cover}
+.comment-input{flex:1;display:flex;align-items:center;background:var(--surface-2);border:1px solid var(--line);border-radius:22px;padding:0 6px 0 14px}
+.comment-input input{flex:1;height:38px;background:none;border:none;outline:none}
+.comment-input button{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:var(--ink-faint)}
+.comment-input button:hover{color:var(--accent);background:var(--surface-3)}
+.comment{display:flex;gap:8px;padding:8px 0}
+.comment img{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.comment-bubble{background:var(--surface-2);border-radius:4px 12px 12px 12px;padding:8px 12px;flex:1;min-width:0}
+.comment-bubble .cname{font-size:13px;font-weight:600;display:flex;justify-content:space-between;gap:8px}
+.comment-bubble .cname small{color:var(--ink-faint);font-weight:400;font-size:11px}
+.comment-bubble .crole{color:var(--ink-faint);font-size:11px;margin-bottom:4px}
+.comment-bubble p{font-size:13px;line-height:1.4}
+.comment-tools{display:flex;gap:14px;padding:3px 12px;font-size:11.5px;font-weight:600;color:var(--ink-faint)}
+.comment-tools button:hover{color:var(--accent)}
+
+/* SECTIONS */
+.section-head{display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1px solid var(--line)}
+.section-head h2{font-size:16px;font-family:var(--font-display);font-weight:700;letter-spacing:-.01em}
+.section-head a{color:var(--accent);font-weight:600;font-size:13px}
+.grid-section{padding:16px 16px 0}
+.grid-section h2{font-size:16px;font-family:var(--font-display);font-weight:700;letter-spacing:-.01em}
+.grid-section .sub{color:var(--ink-faint);font-size:12.5px;margin-top:2px}
+
+/* NETWORK */
+.invite{display:flex;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);align-items:center}
+.invite:last-child{border:none}
+.invite img{width:54px;height:54px;border-radius:50%;object-fit:cover}
+.invite.page img{border-radius:9px}
+.invite-info{flex:1;min-width:0}
+.invite-info b{font-size:14.5px}
+.invite-info small{display:block;color:var(--ink-soft);font-size:12.5px;margin-top:2px}
+.invite-info .mut{color:var(--ink-faint);font-size:11.5px;margin-top:4px}
+.invite-btns{display:flex;gap:8px;flex-shrink:0}
+.btn-pill{border-radius:20px;padding:6px 16px;font-weight:600;font-size:13px;transition:.15s}
+.btn-ghost{border:1.5px solid var(--line-strong);color:var(--ink-soft)}
+.btn-ghost:hover{background:var(--surface-2);border-color:var(--ink-faint)}
+.btn-solid{background:var(--accent);color:#fff;border:1.5px solid var(--accent)}
+.btn-solid:hover{background:var(--accent-ink);border-color:var(--accent-ink)}
+.hscroll{display:flex;gap:12px;padding:16px;overflow-x:auto}
+.pymk{min-width:186px;max-width:186px;border:1px solid var(--line);border-radius:10px;overflow:hidden;text-align:center;position:relative;flex-shrink:0;transition:box-shadow .15s}
+.pymk:hover{box-shadow:var(--shadow)}
+.pymk-cover{height:56px}
+.pymk-x{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.85);display:grid;place-items:center;color:#555;backdrop-filter:blur(4px)}
+.pymk-x svg{width:14px;height:14px}
+.pymk img.pymk-ava{width:66px;height:66px;border-radius:50%;object-fit:cover;border:3px solid var(--surface);margin:-36px auto 0}
+.otw{position:absolute;top:44px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:9px;font-weight:700;padding:1px 7px;border-radius:8px;z-index:2;white-space:nowrap;text-transform:uppercase;letter-spacing:.03em}
+.pymk-body{padding:0 12px 14px}
+.pymk-body b{display:block;font-size:14px;margin-top:6px}
+.pymk-body small{display:block;color:var(--ink-soft);font-size:12px;line-height:1.3;margin-top:3px;height:46px;overflow:hidden}
+.pymk-body .mut{color:var(--ink-faint);font-size:11px;margin:6px 0 10px;display:flex;align-items:center;justify-content:center;gap:4px;height:14px}
+.pymk-body .mut svg{width:12px;height:12px}
+.pymk-connect{width:100%;border:1.5px solid var(--accent);color:var(--accent);border-radius:20px;padding:5px;font-weight:600}
+.pymk-connect:hover{background:var(--accent-wash)}
+.pymk-connect.pending{border-color:var(--line-strong);color:var(--ink-faint)}
+
+/* JOBS */
+.jobs-layout{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:16px;align-items:start}
+@media(max-width:820px){.jobs-layout{grid-template-columns:1fr}.jobs-layout .job-detail{display:none}}
+.job-filters{display:flex;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.chip{border:1px solid var(--line-strong);border-radius:16px;padding:5px 12px;font-size:12.5px;font-weight:500;color:var(--ink-soft);display:inline-flex;align-items:center;gap:5px}
+.chip svg{width:13px;height:13px}
+.chip:hover{background:var(--surface-2)}
+.chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.job-item{display:flex;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);cursor:pointer;position:relative}
+.job-item:hover{background:var(--surface-2)}
+.job-item.sel{background:var(--accent-wash)}
+.job-item.sel::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+.job-logo{width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0;border:1px solid var(--line)}
+.job-info{flex:1;min-width:0}
+.job-title{font-size:15px;font-weight:600;color:var(--accent);line-height:1.3}
+.job-co{font-size:13px;margin-top:2px}.job-loc{color:var(--ink-faint);font-size:12.5px;margin-top:1px}
+.job-tags{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
+.job-tag{font-size:11px;background:var(--surface-3);color:var(--ink-soft);padding:2px 8px;border-radius:5px;font-weight:500}
+.job-tag.easy{background:var(--accent-soft);color:var(--accent-ink)}
+.job-conns{color:var(--ink-faint);font-size:11.5px;margin-top:7px;display:flex;align-items:center;gap:6px}
+.job-conns .faces{display:flex}
+.job-conns .faces img{width:18px;height:18px;border-radius:50%;margin-left:-6px;border:1.5px solid var(--surface);object-fit:cover}
+.job-conns .faces img:first-child{margin-left:0}
+.job-foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.job-foot small{color:var(--ink-faint);font-size:11.5px}
+.job-verify{color:var(--accent);font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:3px}
+.job-verify svg{width:13px;height:13px}
+.job-save{position:absolute;top:12px;right:14px;color:var(--ink-faint);width:30px;height:30px;border-radius:50%;display:grid;place-items:center}
+.job-save:hover{background:var(--surface-3);color:var(--ink)}
+.job-save svg{width:18px;height:18px}
+.job-save.saved svg{fill:var(--accent);color:var(--accent)}
+.job-detail{position:sticky;top:calc(var(--topbar-h) + 24px)}
+.jd-head{padding:20px 20px 16px;border-bottom:1px solid var(--line)}
+.jd-co{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.jd-co img{width:52px;height:52px;border-radius:10px;border:1px solid var(--line);object-fit:cover}
+.jd-co b{font-size:14px}.jd-co small{color:var(--ink-soft);font-size:12.5px;display:block}
+.jd-title{font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.jd-sub{color:var(--ink-soft);font-size:13px;margin-top:6px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.jd-sub .dot{color:var(--ink-faint)}
+.jd-conns{color:var(--ink-faint);font-size:12.5px;margin-top:8px;display:flex;align-items:center;gap:6px}
+.jd-conns .faces{display:flex}.jd-conns .faces img{width:20px;height:20px;border-radius:50%;margin-left:-6px;border:1.5px solid var(--surface)}
+.jd-conns .faces img:first-child{margin-left:0}
+.jd-hl{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.jd-hl-item{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:12px}
+.jd-hl-item b{display:block;font-size:13px}.jd-hl-item span{color:var(--ink-faint)}
+.jd-btns{display:flex;gap:10px;margin-top:16px}
+.jd-apply{background:var(--accent);color:#fff;border-radius:22px;padding:9px 28px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:7px}
+.jd-apply svg{width:16px;height:16px}.jd-apply:hover{background:var(--accent-ink)}
+.jd-savebtn{border:1.5px solid var(--accent);color:var(--accent);border-radius:22px;padding:9px 24px;font-weight:700;font-size:14px}
+.jd-savebtn:hover{background:var(--accent-wash)}
+.jd-trust{margin:16px 20px;padding:14px;background:var(--accent-wash);border:1px solid var(--accent-soft);border-radius:10px}
+.jd-trust-head{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--accent-ink);font-size:13.5px}
+.jd-trust-head svg{width:18px;height:18px}
+.jd-trust-grade{margin-left:auto;background:var(--accent);color:#fff;font-family:var(--font-display);font-weight:800;font-size:15px;width:34px;height:34px;border-radius:8px;display:grid;place-items:center}
+.jd-trust p{font-size:12.5px;color:var(--ink-soft);margin-top:8px;line-height:1.45}
+.jd-section{padding:16px 20px;border-top:1px solid var(--line)}
+.jd-section h4{font-size:15px;font-family:var(--font-display);font-weight:700;margin-bottom:10px}
+.jd-section p{font-size:13.5px;line-height:1.6;color:var(--ink-soft);margin-bottom:10px}
+.jd-section li{font-size:13.5px;line-height:1.6;color:var(--ink-soft);margin:0 0 5px 18px}
+.recent-search{display:flex;gap:10px;padding:9px 0;align-items:flex-start}
+.recent-search svg{width:16px;height:16px;color:var(--ink-faint);margin-top:2px}
+.recent-search b{font-size:13px}.recent-search small{color:var(--ink-faint);font-size:11.5px;display:block}
+
+/* MESSAGING */
+.msg-wrap{display:grid;grid-template-columns:340px minmax(0,1fr);height:calc(100vh - var(--topbar-h) - 48px);min-height:540px}
+@media(max-width:820px){.msg-wrap{grid-template-columns:1fr}.msg-wrap.showthread .msg-list{display:none}.msg-wrap:not(.showthread) .msg-thread{display:none}}
+.msg-list{border-right:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
+.msg-list-head{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.msg-list-head b{font-family:var(--font-display);font-size:16px}
+.msg-tabs{display:flex;gap:14px;padding:8px 16px 0;border-bottom:1px solid var(--line);font-size:13px;color:var(--ink-faint);overflow-x:auto}
+.msg-tabs button{white-space:nowrap;padding-bottom:8px;font-weight:500;color:var(--ink-faint);border-bottom:2px solid transparent}
+.msg-tabs button.on{color:var(--ink);border-bottom-color:var(--accent);font-weight:600}
+.msg-items{overflow-y:auto;flex:1}
+.msg-conv{display:flex;gap:11px;padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--line);position:relative}
+.msg-conv:hover{background:var(--surface-2)}
+.msg-conv.sel{background:var(--accent-wash)}
+.msg-conv-ava{position:relative;flex-shrink:0}
+.msg-conv-ava img{width:48px;height:48px;border-radius:50%;object-fit:cover}
+.msg-conv-ava .on{position:absolute;bottom:1px;right:1px;width:12px;height:12px;background:#0f9d58;border-radius:50%;border:2px solid var(--surface)}
+.msg-conv-body{flex:1;min-width:0}
+.msg-conv-top{display:flex;justify-content:space-between;gap:8px}
+.msg-conv-top b{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg-conv-top small{color:var(--ink-faint);font-size:11px;flex-shrink:0}
+.msg-conv-prev{color:var(--ink-soft);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.msg-conv.unread .msg-conv-prev{color:var(--ink);font-weight:600}
+.msg-conv.unread::after{content:"";position:absolute;right:16px;top:50%;width:8px;height:8px;background:var(--accent);border-radius:50%}
+.msg-conv .spon{font-size:10px;color:var(--ink-faint);font-weight:600}
+.msg-thread{display:flex;flex-direction:column;overflow:hidden}
+.msg-thread-head{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;gap:11px;align-items:center}
+.msg-back{display:none;color:var(--ink-soft)}
+@media(max-width:820px){.msg-back{display:grid;place-items:center;width:32px;height:32px}}
+.msg-thread-head img{width:40px;height:40px;border-radius:50%;object-fit:cover}
+.msg-thread-head b{font-size:14.5px;display:block}
+.msg-thread-head small{color:var(--ink-faint);font-size:11.5px}
+.msg-subject{padding:8px 16px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink-faint);background:var(--surface-2)}
+.msg-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:2px;background:var(--surface-2)}
+.msg-day{text-align:center;font-size:11px;color:var(--ink-faint);margin:10px 0;font-weight:600}
+.bubble-row{display:flex;gap:8px;margin-bottom:2px;max-width:78%}
+.bubble-row img{width:30px;height:30px;border-radius:50%;object-fit:cover;align-self:flex-end}
+.bubble{padding:9px 13px;border-radius:14px;font-size:13.5px;line-height:1.45;white-space:pre-wrap}
+.bubble-row.them .bubble{background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:4px}
+.bubble-row.me{align-self:flex-end;flex-direction:row-reverse}
+.bubble-row.me .bubble{background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+.bubble.att{display:flex;align-items:center;gap:8px;font-weight:600}
+.bubble.att svg{width:18px;height:18px}
+.msg-compose{border-top:1px solid var(--line);padding:10px 14px;display:flex;gap:10px;align-items:flex-end}
+.msg-compose textarea{flex:1;resize:none;background:var(--surface-2);border:1px solid var(--line);border-radius:18px;padding:9px 14px;max-height:120px;min-height:40px;outline:none}
+.msg-compose textarea:focus{border-color:var(--accent)}
+.msg-send{background:var(--accent);color:#fff;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}
+.msg-send:hover{background:var(--accent-ink)}.msg-send svg{width:18px;height:18px}
+
+/* NOTIFICATIONS */
+.notif{display:flex;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);align-items:flex-start;position:relative}
+.notif:hover{background:var(--surface-2)}
+.notif.unread{background:var(--accent-wash)}
+.notif img{width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.notif.page img{border-radius:9px}
+.notif-body{flex:1;min-width:0}
+.notif-body p{font-size:13.5px;line-height:1.45}.notif-body p b{font-weight:600}
+.notif-body small{color:var(--ink-faint);font-size:11.5px;display:block;margin-top:4px}
+.notif-cta{margin-top:8px;border:1.5px solid var(--accent);color:var(--accent);border-radius:18px;padding:4px 16px;font-weight:600;font-size:12.5px}
+.notif-cta:hover{background:var(--accent-wash)}
+.notif-time{color:var(--ink-faint);font-size:11.5px;flex-shrink:0}
+
+/* PROFILE */
+.prof-cover{height:210px;background:linear-gradient(120deg,#0f766e,#134e4a 50%,#1e6b62);position:relative}
+@media(max-width:600px){.prof-cover{height:130px}}
+.prof-main{padding:0 24px 24px;position:relative}
+.prof-ava{width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid var(--surface);margin-top:-84px;box-shadow:var(--shadow)}
+@media(max-width:600px){.prof-ava{width:110px;height:110px;margin-top:-60px}}
+.prof-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.prof-name{font-family:var(--font-display);font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:12px;display:flex;align-items:center;gap:8px}
+.prof-verify{width:22px;height:22px;background:var(--accent);border-radius:50%;display:grid;place-items:center}
+.prof-verify svg{width:13px;height:13px;color:#fff}
+.prof-headline{font-size:16px;margin-top:4px;max-width:560px;line-height:1.4}
+.prof-loc{color:var(--ink-faint);font-size:13px;margin-top:8px}
+.prof-loc a{color:var(--accent);font-weight:600}
+.prof-conns{margin-top:8px;font-size:13px}.prof-conns b{color:var(--accent)}
+.prof-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.prof-schools{display:flex;flex-direction:column;gap:8px;align-items:flex-end;margin-top:12px}
+.prof-schools div{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+.prof-schools img{width:24px;height:24px;border-radius:5px;object-fit:cover}
+.prof-schools .muted{color:var(--ink-soft);font-weight:500}
+.open-banner{margin:0 24px 20px;padding:14px 16px;background:var(--accent-wash);border:1px solid var(--accent-soft);border-radius:10px}
+.open-banner b{font-size:14px}.open-banner p{font-size:13px;color:var(--ink-soft);margin-top:4px}
+.prof-section{padding:22px 24px}
+.prof-section h3{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-.01em;margin-bottom:14px}
+.prof-about{font-size:14px;line-height:1.65;color:var(--ink-soft);white-space:pre-wrap}
+.analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.analytics-grid{grid-template-columns:1fr}}
+.analytic{display:flex;gap:12px;padding:8px;border-radius:8px}
+.analytic:hover{background:var(--surface-2)}
+.analytic svg{width:22px;height:22px;color:var(--ink-soft);flex-shrink:0;margin-top:2px}
+.analytic b{font-size:15px}.analytic small{color:var(--ink-faint);font-size:12px;display:block}
+.exp-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.exp-item:last-child{border:none}
+.exp-logo{width:52px;height:52px;border-radius:9px;object-fit:cover;border:1px solid var(--line);flex-shrink:0}
+.exp-info b{font-size:15px}.exp-co{font-size:13.5px}
+.exp-date{color:var(--ink-faint);font-size:12.5px;margin-top:2px}
+.exp-desc{font-size:13px;color:var(--ink-soft);margin-top:8px;line-height:1.55}
+.skill-grid{display:flex;flex-wrap:wrap;gap:8px}
+.skill{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px}
+.skill .endo{background:var(--accent-soft);color:var(--accent-ink);font-size:11px;font-weight:700;padding:1px 7px;border-radius:10px}
+.cert{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}
+.cert:last-child{border:none}
+.cert-logo{width:46px;height:46px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent-ink));display:grid;place-items:center;color:#fff}
+.cert-logo svg{width:22px;height:22px}
+.cert b{font-size:14px}.cert small{color:var(--ink-soft);font-size:12.5px;display:block}
+.act-post{padding:12px 0;border-bottom:1px solid var(--line)}
+.act-post:last-child{border:none}
+.act-post .tag{color:var(--ink-faint);font-size:12px;font-weight:600}
+.act-post .ap-body{font-size:13px;color:var(--ink);line-height:1.5;margin-top:6px;white-space:pre-wrap}
+.act-post small{color:var(--ink-faint);font-size:11.5px;display:block;margin-top:6px}
+
+.mini-foot{max-width:var(--maxw);margin:0 auto;padding:24px 20px;text-align:center;color:var(--ink-faint);font-size:11.5px}
+.mini-foot .brand-name{font-size:14px;color:var(--ink-soft)}
+.mini-foot nav{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-bottom:12px}
+.mini-foot nav a:hover{color:var(--accent);text-decoration:underline}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--surface);padding:11px 20px;border-radius:10px;font-size:13.5px;font-weight:500;box-shadow:var(--shadow-lg);z-index:500;opacity:0;visibility:hidden;transition:.2s;display:flex;align-items:center;gap:9px}
+.toast.show{opacity:1;visibility:visible;transform:translateX(-50%)}
+.toast svg{width:18px;height:18px;color:var(--accent-ink)}
+html[data-theme="dark"] .toast svg{color:var(--accent)}
+.view{display:none}
+.view.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.empty{padding:60px 24px;text-align:center;color:var(--ink-faint)}
+.empty b{display:block;font-size:16px;color:var(--ink-soft);margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18V7l8-4 8 4v11" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 21v-6h6v6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="1.6" fill="currentColor"/></svg></div>
+      <span class="brand-name">roster</span>
+    </div>
+    <label class="searchbox">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input type="search" placeholder="Search people, jobs, companies" id="globalSearch">
+    </label>
+    <nav class="nav">
+      <button class="nav-item active" data-view="feed"><svg viewBox="0 0 24 24" fill="none"><path d="M3 10.5 12 3l9 7.5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M5 9.5V20h14V9.5M10 20v-5h4v5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span>Home</span></button>
+      <button class="nav-item" data-view="network"><svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3.2" stroke="currentColor" stroke-width="2"/><path d="M3.5 20c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="7" r="2.4" stroke="currentColor" stroke-width="2"/><path d="M16 14.6c2.6.2 4.5 2.1 4.5 5.4" stroke="currentColor" stroke-width="2"/></svg><span>Network</span></button>
+      <button class="nav-item" data-view="jobs"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 7V5.5C8 4.7 8.7 4 9.5 4h5c.8 0 1.5.7 1.5 1.5V7M3 12h18" stroke="currentColor" stroke-width="2"/></svg><span>Jobs</span></button>
+      <button class="nav-item" data-view="messaging"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H8l-4 3.5V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span>Messaging</span><em class="nav-badge" id="msgBadge">4</em></button>
+      <button class="nav-item" data-view="notifications"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10 19a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="2"/></svg><span>Alerts</span><em class="nav-badge" id="notifBadge">5</em></button>
+      <div class="nav-divider"></div>
+      <div class="me-menu">
+        <button class="me-btn" id="meBtn"><img src="https://i.pravatar.cc/80?img=12" alt="You"><span>Me <svg viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span></button>
+        <div class="dropdown" id="meDropdown">
+          <div class="dd-head"><img src="https://i.pravatar.cc/80?img=12" alt=""><div><b>Amara Okafor</b><small>Founder & CEO at SkillFleet</small></div></div>
+          <a class="dd-viewbtn" data-view="profile">View profile</a>
+          <div class="dd-sec"><h6>Account</h6><a class="dd-link">Settings & privacy</a><a class="dd-link">Help center</a><a class="dd-link" id="themeToggle">Switch to dark mode</a></div>
+          <div class="dd-sec"><h6>Manage</h6><a class="dd-link" data-view="profile">Posts & activity</a><a class="dd-link" data-view="jobs">Job posting account</a></div>
+          <div class="dd-sec"><a class="dd-link danger">Sign out</a></div>
+        </div>
+      </div>
+      <button class="iconbtn" aria-label="Apps"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="5" r="1.8"/><circle cx="12" cy="5" r="1.8"/><circle cx="19" cy="5" r="1.8"/><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/><circle cx="5" cy="19" r="1.8"/><circle cx="12" cy="19" r="1.8"/><circle cx="19" cy="19" r="1.8"/></svg></button>
+    </nav>
+  </div>
+</header>
+
+<!-- FEED -->
+<section class="view active" id="view-feed">
+  <div class="page grid-3">
+    <aside class="left-rail col-sticky">
+      <div class="card">
+        <div class="pcard-cover"></div>
+        <div class="pcard-body">
+          <img class="pcard-ava" src="https://i.pravatar.cc/140?img=12" alt="">
+          <div class="pcard-name">Amara Okafor</div>
+          <div class="pcard-role">Founder &amp; CEO at SkillFleet · Building the trust layer for hiring</div>
+          <div class="pcard-loc">Sterling, Virginia</div>
+        </div>
+        <div class="pcard-stats">
+          <a class="pstat"><span>Profile viewers</span><b>1,204</b></a>
+          <a class="pstat"><span>Post impressions</span><b>8,930</b></a>
+        </div>
+        <a class="pcard-cta"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z"/></svg>Try Roster Premium</a>
+      </div>
+      <div class="card railnav">
+        <a data-view="feed" class="active"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 9h16M9 20V9" stroke="currentColor" stroke-width="2"/></svg>My feed</a>
+        <a data-view="network"><svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="2"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" stroke="currentColor" stroke-width="2"/></svg>My network</a>
+        <a data-view="jobs"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 7V5h8v2" stroke="currentColor" stroke-width="2"/></svg>Jobs</a>
+        <a><svg viewBox="0 0 24 24" fill="none"><path d="M5 4h14v16l-7-4-7 4V4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Saved items</a>
+        <a><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 9h8M8 13h5" stroke="currentColor" stroke-width="2"/></svg>Newsletters</a>
+      </div>
+    </aside>
+
+    <main>
+      <div class="card composer">
+        <div class="composer-top">
+          <img src="https://i.pravatar.cc/80?img=12" alt="">
+          <button class="composer-fake" id="openComposer">Share an update, role, or milestone…</button>
+        </div>
+        <div class="composer-actions">
+          <button class="comp-act media" id="composePhoto"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="8.5" cy="10" r="1.5" fill="currentColor"/><path d="m5 17 4-4 3 3 3-4 4 5" stroke="currentColor" stroke-width="2"/></svg><span>Photo</span></button>
+          <button class="comp-act event"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2"/></svg><span>Event</span></button>
+          <button class="comp-act article"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="2"/></svg><span>Write article</span></button>
+        </div>
+      </div>
+      <div class="feed-sort"><span>Sort by:</span><button>Top <svg viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div>
+      <div id="feedStream"></div>
+    </main>
+
+    <aside class="right-rail col-sticky">
+      <div class="card widget">
+        <div class="widget-head"><h3>Roster News</h3><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 11v5M12 8v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div id="newsList"></div>
+        <a class="news-more">Show more <svg viewBox="0 0 24 24" fill="none" width="14" height="14"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></a>
+      </div>
+      <div class="card widget">
+        <div class="widget-head"><h3>Add to your feed</h3></div>
+        <div id="railSuggest"></div>
+      </div>
+      <div class="card promo">
+        <small>Promoted</small>
+        <h4>Hire faster with verified candidate history</h4>
+        <img class="promo-img" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=200&fit=crop" alt="">
+        <a class="promo-btn">Learn more</a>
+      </div>
+      <footer class="mini-foot">
+        <nav><a>About</a><a>Accessibility</a><a>Help</a><a>Privacy</a><a>Careers</a><a>Ad choices</a></nav>
+        <span class="brand-name">roster</span> · © 2026
+      </footer>
+    </aside>
+  </div>
+</section>
+
+<!-- NETWORK -->
+<section class="view" id="view-network">
+  <div class="page grid-2">
+    <aside class="left-rail col-sticky">
+      <div class="card">
+        <div class="section-head" style="border:none;padding-bottom:0"><h2 style="font-size:15px">Manage network</h2></div>
+        <div class="railnav" style="margin-top:0">
+          <a><svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="2"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" stroke="currentColor" stroke-width="2"/></svg>Connections <b style="margin-left:auto;color:var(--ink-faint)">842</b></a>
+          <a><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="2"/></svg>Following &amp; followers</a>
+          <a><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"/></svg>Groups <b style="margin-left:auto;color:var(--ink-faint)">6</b></a>
+          <a><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 9h18" stroke="currentColor" stroke-width="2"/></svg>Events <b style="margin-left:auto;color:var(--ink-faint)">2</b></a>
+          <a><svg viewBox="0 0 24 24" fill="none"><path d="M5 4h14v16l-7-4-7 4Z" stroke="currentColor" stroke-width="2"/></svg>Pages <b style="margin-left:auto;color:var(--ink-faint)">11</b></a>
+        </div>
+      </div>
+    </aside>
+    <main>
+      <div class="card">
+        <div class="section-head"><h2>Invitations (<span id="inviteCount">3</span>)</h2><a>See all</a></div>
+        <div id="inviteList"></div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <div class="grid-section"><h2>People who are hiring for your role</h2><p class="sub">Founders and talent leaders in your space</p></div>
+        <div class="hscroll" id="hiringGrid"></div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <div class="grid-section"><h2>People you may know in Talent &amp; Recruiting</h2></div>
+        <div class="hscroll" id="pymkGrid"></div>
+      </div>
+    </main>
+  </div>
+</section>
+
+<!-- JOBS -->
+<section class="view" id="view-jobs">
+  <div class="page">
+    <div class="jobs-layout">
+      <div class="card">
+        <div class="section-head"><h2>Recommended for you</h2><a id="jobCount">6 results</a></div>
+        <div class="job-filters">
+          <button class="chip on" data-filter="all">All</button>
+          <button class="chip" data-filter="remote">Remote</button>
+          <button class="chip" data-filter="easy">Easy apply</button>
+          <button class="chip" data-filter="verified"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Verified employer</button>
+        </div>
+        <div id="jobList"></div>
+        <div class="section-head" style="border-top:1px solid var(--line);border-bottom:none"><h2 style="font-size:14px">Recent searches</h2><a>Clear</a></div>
+        <div id="recentSearches" style="padding:0 16px 16px"></div>
+      </div>
+      <div class="card job-detail" id="jobDetail"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MESSAGING -->
+<section class="view" id="view-messaging">
+  <div class="page">
+    <div class="card" style="overflow:hidden">
+      <div class="msg-wrap" id="msgWrap">
+        <div class="msg-list">
+          <div class="msg-list-head"><b>Messaging</b><button class="iconbtn" title="New message"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></div>
+          <div class="msg-tabs">
+            <button class="on" data-tab="focused">Focused</button>
+            <button data-tab="jobs">Jobs</button>
+            <button data-tab="unread">Unread</button>
+            <button data-tab="connections">Connections</button>
+            <button data-tab="starred">Starred</button>
+          </div>
+          <div class="msg-items" id="convList"></div>
+        </div>
+        <div class="msg-thread" id="msgThread"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOTIFICATIONS -->
+<section class="view" id="view-notifications">
+  <div class="page grid-2">
+    <aside class="left-rail col-sticky">
+      <div class="card widget">
+        <div class="widget-head"><h3>Manage alerts</h3></div>
+        <div class="railnav" style="margin:0;padding:0">
+          <a class="active">All</a><a>My posts</a><a>Jobs</a><a>Mentions</a>
+        </div>
+      </div>
+    </aside>
+    <main>
+      <div class="card">
+        <div class="section-head"><h2>Notifications</h2><a id="markRead">Mark all as read</a></div>
+        <div id="notifList"></div>
+      </div>
+    </main>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section class="view" id="view-profile">
+  <div class="page grid-2">
+    <aside class="left-rail col-sticky">
+      <div class="card widget">
+        <div class="widget-head"><h3>Analytics</h3></div>
+        <div class="analytics-grid">
+          <div class="analytic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="9" r="3" stroke="currentColor" stroke-width="2"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6" stroke="currentColor" stroke-width="2"/></svg><div><b>1,204</b><small>Profile views</small></div></div>
+          <div class="analytic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16l4-4 4 3 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>8,930</b><small>Post impressions</small></div></div>
+          <div class="analytic"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3-3" stroke="currentColor" stroke-width="2"/></svg><div><b>318</b><small>Search appearances</small></div></div>
+          <div class="analytic"><svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="2"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" stroke="currentColor" stroke-width="2"/></svg><div><b>5,100</b><small>Followers</small></div></div>
+        </div>
+      </div>
+      <div class="card widget">
+        <div class="widget-head"><h3>Public URL</h3></div>
+        <p style="font-size:13px;color:var(--accent);word-break:break-all">roster.co/in/amara-okafor</p>
+      </div>
+      <div class="card widget">
+        <div class="widget-head"><h3>People also viewed</h3></div>
+        <div id="alsoViewed"></div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="card">
+        <div class="prof-cover"></div>
+        <div class="prof-main">
+          <div class="prof-top">
+            <div>
+              <img class="prof-ava" src="https://i.pravatar.cc/300?img=12" alt="">
+              <div class="prof-name">Amara Okafor <span class="prof-verify"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+              <div class="prof-headline">Founder &amp; CEO at SkillFleet · Building the trust &amp; verification layer for hiring · ex-Marketplace &amp; DTC operator</div>
+              <div class="prof-loc">Sterling, Virginia, United States · <a>Contact info</a></div>
+              <div class="prof-conns"><b>842 connections</b> · 5,100 followers</div>
+              <div class="prof-actions">
+                <button class="jd-apply" style="padding:8px 24px">+ Follow</button>
+                <button class="jd-savebtn" style="padding:8px 22px">Message</button>
+                <button class="btn-pill btn-ghost">More</button>
+              </div>
+            </div>
+            <div class="prof-schools">
+              <div><img src="https://ui-avatars.com/api/?name=SF&background=0f766e&color=fff&size=48&bold=true" alt="">SkillFleet</div>
+              <div class="muted"><img src="https://ui-avatars.com/api/?name=GT&background=134e4a&color=fff&size=48&bold=true" alt="">Georgetown University</div>
+            </div>
+          </div>
+        </div>
+        <div class="open-banner">
+          <b>Open to</b>
+          <p>Hiring — Founding Engineer, Head of Marketplace Ops · and advising early-stage marketplace founders</p>
+        </div>
+      </div>
+
+      <div class="card"><div class="prof-section"><h3>About</h3><p class="prof-about">Third-time founder working on the problem I kept hitting as an operator: hiring runs on unverifiable claims. Candidates inflate, employers ghost, and nobody carries a portable reputation across the process.
+
+SkillFleet is a two-sided AI hiring marketplace with a conduct-grading trust engine — employers are graded on how they actually treat candidates, and candidate skills are verified rather than self-reported. Previously built and exited in DTC and marketplace.
+
+Interested in: marketplace liquidity, trust systems, verification infrastructure, and anything that makes hiring less adversarial.</p></div></div>
+
+      <div class="card"><div class="prof-section"><h3>Activity</h3><p style="color:var(--ink-soft);font-size:13px;margin:-8px 0 14px">5,100 followers</p><div id="profActivity"></div></div></div>
+
+      <div class="card"><div class="prof-section"><h3>Experience</h3>
+        <div class="exp-item"><img class="exp-logo" src="https://ui-avatars.com/api/?name=SF&background=0f766e&color=fff&size=104&bold=true" alt=""><div class="exp-info"><b>Founder &amp; CEO</b><div class="exp-co">SkillFleet · Full-time</div><div class="exp-date">Jan 2025 – Present · 1 yr 6 mos</div><div class="exp-date">Sterling, Virginia · Hybrid</div><p class="exp-desc">Building a hiring marketplace where trust is measured, not assumed. Led the design of a conduct-grading engine that scores employer behavior across the funnel, and a skills-verification layer replacing self-reported résumés.</p></div></div>
+        <div class="exp-item"><img class="exp-logo" src="https://ui-avatars.com/api/?name=MV&background=134e4a&color=fff&size=104&bold=true" alt=""><div class="exp-info"><b>Co-founder &amp; Head of Ops</b><div class="exp-co">Marketvine (acquired) · Full-time</div><div class="exp-date">2021 – 2024 · 3 yrs</div><p class="exp-desc">Scaled a curated marketplace to seven figures in GMV and led operations through acquisition. Owned supply acquisition, trust &amp; safety, and category expansion.</p></div></div>
+        <div class="exp-item"><img class="exp-logo" src="https://ui-avatars.com/api/?name=NB&background=1e6b62&color=fff&size=104&bold=true" alt=""><div class="exp-info"><b>Founder</b><div class="exp-co">Northbell (DTC brand)</div><div class="exp-date">2019 – 2021 · 2 yrs</div><p class="exp-desc">Bootstrapped a direct-to-consumer home goods brand from zero to profitability. Ran paid acquisition, retention, and supply chain solo.</p></div></div>
+      </div></div>
+
+      <div class="card"><div class="prof-section"><h3>Licenses &amp; certifications</h3><div id="certList"></div></div></div>
+      <div class="card"><div class="prof-section"><h3>Skills</h3><div class="skill-grid" id="skillGrid"></div></div></div>
+    </main>
+  </div>
+</section>
+
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="toastMsg"></span></div>
+
+<script>
+const A=n=>`https://i.pravatar.cc/120?img=${n}`;
+const CO=(t,c)=>`https://ui-avatars.com/api/?name=${t}&background=${c}&color=fff&size=104&bold=true`;
+const reactMap={like:{c:"rlike",e:"👍"},cele:{c:"rcele",e:"👏"},insi:{c:"rinsi",e:"💡"},love:{c:"rlove",e:"❤️"},sup:{c:"rsup",e:"🤝"}};
+
+/* ---------- FEED: mixed post types ---------- */
+const posts=[
+ {type:"person",name:"Daniel Reyes",img:A(15),role:"VP Talent Acquisition at Northwind Logistics",conn:"1st",time:"4h",
+  body:"After 12 years in recruiting I'll say the quiet part loud: the résumé is the least reliable document in the hiring process.\n\nWe verified a batch of 200 applications last quarter. 41% had at least one materially inflated claim — inflated titles, overstated tenure, skills nobody could demonstrate.\n\nThe fix isn't more interviews. It's verification that travels with the candidate. #hiring #recruiting",
+  likes:487,comments:63,reposts:28,reacts:["like","cele","insi"],liked:false,
+  cl:[{name:"Priya Nair",img:A(20),role:"Head of People, Fold",text:"41% tracks with what we found. The scary part is the well-meaning inflation, not the outright lies."},
+      {name:"Amara Okafor",img:A(12),role:"Founder & CEO at SkillFleet",text:"This is literally the thesis. Portable, verified reputation > another panel round."}]},
+
+ {type:"promoted",name:"Fold",img:CO("F","0f766e"),role:"Trust infrastructure for modern teams · 12,400 followers",
+  body:"The 2026 Hiring Trust Report is here. What 500 talent leaders told us about verification, ghosting, and what candidates actually want.",
+  doc:{title:"The 2026 Hiring Trust Report",blurb:"What 500 talent leaders told us about verification, ghosting, and candidate experience.",page:"1 / 14"},
+  likes:1842,comments:96,reposts:140,reacts:["like","insi","cele"],liked:false,cl:[]},
+
+ {type:"repost",reposter:"Amara Okafor",reposterImg:A(12),name:"SkillFleet",img:CO("SF","0f766e"),role:"Verified hiring, minus the guesswork · 3,200 followers",time:"1d",
+  body:"We shipped Conduct Grades this week. 📊\n\nEvery employer on SkillFleet now carries a public grade based on how they actually treat candidates: response times, ghosting rate, interview-to-offer clarity, and post-rejection feedback.\n\nCandidates can finally see who's worth their time before they apply.",
+  img_post:"https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700&h=400&fit=crop",
+  likes:912,comments:104,reposts:61,reacts:["like","cele","insi"],liked:true,pageFollow:"Balaji, Fatah and 33 others follow this Page",
+  cl:[{name:"Marcus Bell",img:A(33),role:"Software Engineer",text:"Finally. I've stopped applying to two companies just from seeing their ghosting rate."}]},
+
+ {type:"page",name:"TrustHire",img:CO("T","1e6b62"),role:"Recommended for you · Verification APIs",follow:true,time:"3d",
+  body:"⚙️ As hiring gets more automated, the bottleneck moves from screening to trust. Anyone can generate a résumé now — the scarce thing is proof.\n\nWe're building the rails so any marketplace can verify skills and identity in one call.",
+  link:{img:"https://images.unsplash.com/photo-1518770660439-4636190af475?w=700&h=300&fit=crop",title:"TrustHire — verification APIs for hiring",sub:"trusthire.dev"},
+  likes:64,comments:7,reposts:4,reacts:["like","insi"],liked:false,cl:[]},
+
+ {type:"person",name:"Priya Nair",img:A(20),role:"Head of People at Fold · Ex-Stripe",conn:"1st",time:"1d",
+  body:"Unpopular opinion: your careers page is a trust document, not a marketing page.\n\nCandidates can smell the gap between 'we value work-life balance' and a Glassdoor full of burnout reviews from a mile away. Say less, prove more.\n\nWhat's the single most honest thing a company has ever put on a job post that made you *more* likely to apply?",
+  likes:341,comments:88,reposts:12,reacts:["like","insi"],liked:false,cl:[]},
+
+ {type:"person",name:"Leah Chen",img:A(45),role:"Founder at Verano · YC W24",conn:"2nd",follow:true,time:"2d",
+  body:"Fundraising update, in the spirit of building in public:\n\nWe closed our seed. 61 no's before the yes. Every single 'no' had a reason we could act on, and half of them are now on our update list rooting for us.\n\nRejection isn't the opposite of progress. Silence is. Keep your rejections warm. 🙏",
+  img_post:"https://images.unsplash.com/photo-1552664730-d307ca884978?w=700&h=380&fit=crop",
+  likes:1240,comments:156,reposts:94,reacts:["like","cele","love"],liked:false,
+  cl:[{name:"Daniel Reyes",img:A(15),role:"VP Talent Acquisition",text:"'Keep your rejections warm' is going on my wall. Congrats Leah."}]},
+
+ {type:"person",name:"Reginé Osei",img:A(25),role:"Systems & Change Strategist | Keynote Speaker | Author",conn:"2nd",follow:true,time:"2d",
+  body:"I've been thinking a lot about anger at work lately.\n\nThis week's newsletter is about the feelings we're all expected to swallow about the tools we're told to adopt — and why naming them out loud is the first honest step.",
+  nl:{title:"The Access Blueprint — on AI, anger, and honesty",sub:"Newsletter · Weekly · 4,200 subscribers"},
+  likes:22,comments:3,reposts:0,reacts:["like","love"],liked:false,cl:[]},
+
+ {type:"promoted",name:"MarketDuck",img:CO("MD","c99a3a"),role:"The definitive guide to marketplace data · 31,203 followers",
+  body:"Chapters 1–3 of the O'Reilly marketplace-liquidity playbook are free. Everything you need to evaluate, adopt, and operate a healthy two-sided market.",
+  link:{img:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&h=300&fit=crop",title:"Marketplace Liquidity: The Definitive Guide",sub:"marketduck.io · 637 downloads"},
+  likes:412,comments:22,reposts:33,reacts:["like","insi"],liked:false,cl:[]},
+
+ {type:"person",name:"Marcus Bell",img:A(33),role:"Senior Software Engineer · Distributed systems",conn:"1st",time:"3d",
+  body:"Spent the weekend rebuilding my portfolio around one idea: show the work, not the buzzwords.\n\nInstead of 'proficient in X, Y, Z', every skill links to a shipped thing you can actually click. Took 3x longer to write. Getting 4x the recruiter replies.\n\nThe market rewards evidence.",
+  likes:521,comments:47,reposts:33,reacts:["like","insi"],liked:false,cl:[]}
+];
+
+const news=[
+ {t:"Hiring managers rank verification over referrals",m:"Top news · 4,102 readers"},
+ {t:"Remote roles rebound in Q3 across tech",m:"2h ago · 1,890 readers"},
+ {t:"The 'quiet hiring' trend, explained",m:"5h ago · 3,340 readers"},
+ {t:"Marketplaces bet on trust as a moat",m:"1d ago · 921 readers"},
+ {t:"Salary transparency laws expand to 4 states",m:"1d ago · 6,200 readers"}
+];
+const railSuggest=[
+ {name:"Andrea Voss",img:A(26),role:"Writes about marketplace liquidity",page:false},
+ {name:"The Trust Layer",img:CO("TL","0f766e"),role:"Newsletter · 18k subscribers",page:true},
+ {name:"Hiring, Honestly",img:CO("HH","1e6b62"),role:"Company Page · 22k followers",page:true}
+];
+
+/* ---------- NETWORK ---------- */
+const invites=[
+ {page:true,name:"The Trust Layer",img:CO("TL","0f766e"),role:"Newsletter · Weekly",mut:"The Trust Layer invited you to subscribe"},
+ {name:"Grace Adeyemi",img:A(47),role:"Talent Partner · Building candidate-first pipelines",mut:"12 mutual connections"},
+ {name:"Owen Fletcher",img:A(53),role:"Head of Engineering at Northwind Logistics",mut:"Owen and you both know Daniel Reyes"}
+];
+const hiring=[
+ {name:"Grace Adeyemi",img:A(47),role:"Talent Partner @ Sequoia Scout",act:"Connect",c:"0f766e"},
+ {name:"Nadia Rahman",img:A(31),role:"Head of Talent, Cinder",act:"Follow",c:"1e6b62"},
+ {name:"Sofia Marti",img:A(24),role:"Recruiting Lead at Verano",act:"Connect",c:"134e4a"},
+ {name:"Ben Carter",img:A(51),role:"Technical Recruiter, Fold",act:"Connect",c:"0f766e"},
+ {name:"Liam Novak",img:A(60),role:"Head of TA at Verano",act:"Follow",c:"1e6b62"}
+];
+const pymk=[
+ {name:"Rosa Iglesias",img:A(29),role:"VP People at Cinder",mut:"9 mutual connections",c:"134e4a"},
+ {name:"Aisha Bello",img:A(43),role:"Founder & CEO at Tandem Talent",mut:"17 mutual connections",c:"1e6b62",otw:"Open to work"},
+ {name:"Mei Tanaka",img:A(30),role:"Marketplace GM · ex-Uber",mut:"11 mutual connections",c:"0f766e"},
+ {name:"David Okoro",img:A(58),role:"People Analytics Lead",mut:"6 mutual connections",c:"134e4a"},
+ {name:"Tomás Vega",img:A(52),role:"Founder at HireLoop",mut:"14 mutual connections",c:"1e6b62"}
+];
+
+/* ---------- JOBS ---------- */
+const jobs=[
+ {id:1,title:"Senior Product Manager, Trust Platform",co:"Fold",logo:CO("F","0f766e"),loc:"Remote (US)",tags:["Remote","Full-time"],easy:true,verified:true,grade:"A",posted:"2 days ago",applicants:"41 applicants",conns:5,early:false,salary:"$170K – $210K",type:"Full-time · Senior",
+  desc:"Own the roadmap for the systems that decide who candidates and employers can trust. You'll work across data science, design, and policy to turn behavioral signals into fair, legible reputation.",
+  resp:["Define and ship the trust & verification roadmap end-to-end","Partner with data science on conduct-scoring models","Balance candidate protection with employer growth","Own metrics for trust, fairness, and liquidity"],
+  skills:["Marketplace or platform PM experience","Comfort with data-heavy product decisions","Track record shipping 0→1 trust features"]},
+ {id:2,title:"Head of Marketplace Operations",co:"Verano",logo:CO("V","134e4a"),loc:"New York, NY (Hybrid)",tags:["Hybrid","Full-time"],easy:false,verified:true,grade:"A-",posted:"1 day ago",applicants:"23 applicants",conns:3,early:true,salary:"$180K – $230K",type:"Full-time · Director",
+  desc:"Run the operational engine of a fast-growing two-sided marketplace. Own supply/demand balance, trust & safety operations, and the metrics that keep both sides healthy.",
+  resp:["Own marketplace liquidity and match quality","Build and lead a trust & safety ops team","Design SLAs for candidate and employer experience","Report directly to the founders"],
+  skills:["7+ years in marketplace operations","Experience scaling two-sided marketplaces","Strong analytical and leadership skills"]},
+ {id:3,title:"Founding Engineer",co:"Northwind Labs",logo:CO("N","1e6b62"),loc:"Sterling, VA (On-site)",tags:["On-site","Equity"],easy:true,verified:true,grade:"B+",posted:"5 days ago",applicants:"88 applicants",conns:0,early:false,salary:"$150K – $190K + equity",type:"Full-time · Founding",
+  desc:"Be employee #3 at a hiring-infrastructure startup. Build the verification pipeline that powers portable candidate reputation, from data ingestion to partner APIs.",
+  resp:["Architect the verification and identity pipeline","Ship features across the full stack","Set early engineering culture","Work directly with founders"],
+  skills:["Strong full-stack fundamentals","Comfort in 0→1 ambiguity","Interest in trust or data infrastructure"]},
+ {id:4,title:"Talent Acquisition Partner",co:"Cinder",logo:CO("C","0f766e"),loc:"Remote (US)",tags:["Remote","Full-time"],easy:true,verified:false,grade:"B",posted:"3 days ago",applicants:"56 applicants",conns:2,early:true,salary:"$95K – $120K",type:"Full-time · Mid",
+  desc:"Lead full-cycle recruiting for a values-driven product company. Champion a candidate-first process and set the standard for how the company treats people in its pipeline.",
+  resp:["Own full-cycle recruiting for product & engineering","Design a candidate experience worth bragging about","Partner with hiring managers on scorecards","Track and improve funnel conduct metrics"],
+  skills:["3+ years full-cycle technical recruiting","Candidate-first philosophy","Data-informed approach to pipelines"]},
+ {id:5,title:"Product Designer, Marketplace",co:"HireLoop",logo:CO("H","134e4a"),loc:"Remote (US/EU)",tags:["Remote","Full-time"],easy:false,verified:true,grade:"A-",posted:"6 days ago",applicants:"34 applicants",conns:4,early:false,salary:"$140K – $175K",type:"Full-time · Senior",
+  desc:"Design the surfaces where trust becomes visible — grades, verification badges, and the moments that help two sides of a market decide to work together.",
+  resp:["Design core marketplace and trust surfaces","Own flows from research to ship","Make reputation data legible and fair","Collaborate with PM and engineering"],
+  skills:["Strong systems and interaction design","Portfolio of shipped 0→1 work","Interest in trust or data-viz UX"]},
+ {id:6,title:"Data Scientist, Reputation Systems",co:"Fold",logo:CO("F","0f766e"),loc:"Remote (US)",tags:["Remote","Full-time"],easy:true,verified:true,grade:"A",posted:"4 days ago",applicants:"29 applicants",conns:5,early:false,salary:"$165K – $205K",type:"Full-time · Senior",
+  desc:"Turn messy behavioral signals into fair, defensible reputation scores. Your models decide what 'trustworthy' means in a marketplace — so fairness and explainability are the job.",
+  resp:["Build and validate conduct-scoring models","Design for fairness, drift, and explainability","Partner with product on how scores are surfaced","Own the metrics behind trust decisions"],
+  skills:["Strong ML/statistics fundamentals","Experience with fairness or ranking systems","Clear communication of model tradeoffs"]}
+];
+const recentSearches=[
+ {q:"Marketplace Operations",loc:"New York • 25 miles"},
+ {q:"Trust & Safety",loc:"Remote (US)"},
+ {q:"Founding Engineer",loc:"Sterling, Virginia • 50 miles"}
+];
+
+/* ---------- MESSAGING ---------- */
+const convos=[
+ {id:1,cat:["focused","connections","unread"],name:"Daniel Reyes",img:A(15),role:"VP Talent Acquisition · Northwind",online:true,unread:true,time:"2m",subject:"",
+  messages:[
+   {me:false,t:"Hey Amara — really enjoyed your comment on my post about résumé inflation.",time:"10:31 AM"},
+   {me:false,t:"We're actively looking at verification tooling this quarter. Would love to see how SkillFleet handles it.",time:"10:31 AM"},
+   {me:true,t:"Thanks Daniel! That's exactly the problem we're built for. Conduct grades on the employer side, verified skills on the candidate side.",time:"10:34 AM"},
+   {me:false,t:"Thursday works. Send me a slot and I'll bring our Head of Eng.",time:"10:36 AM"}]},
+ {id:2,cat:["focused","unread"],name:"Talent Ops Weekly",img:CO("TO","1e6b62"),role:"Sponsored",online:false,unread:true,time:"1h",sponsored:true,subject:"What great candidate experience looks like in 2026",
+  messages:[{me:false,t:"Hi Amara — sharing our latest breakdown on candidate experience benchmarks. Thought it'd be relevant to what you're building at SkillFleet.",time:"9:40 AM"}]},
+ {id:3,cat:["focused","connections","unread"],name:"Priya Nair",img:A(20),role:"Head of People · Fold",online:true,unread:true,time:"1h",subject:"",
+  messages:[
+   {me:false,t:"Loved your take on careers pages as trust documents 👏",time:"9:02 AM"},
+   {me:true,t:"Ha — coming from you that means a lot. Fold's careers page is one of the few I'd actually hold up as an example.",time:"9:10 AM"},
+   {me:false,t:"Sending you a founding-designer profile now.",time:"9:14 AM"},
+   {me:false,att:true,t:"📎 designer-portfolio.pdf",time:"9:14 AM"}]},
+ {id:4,cat:["focused","jobs","unread"],name:"Sonya Mead",img:A(24),role:"Talent Partner",online:false,unread:true,time:"3h",subject:"Head of Marketplace Ops — worth a look?",
+  messages:[{me:false,t:"Head of Marketplace Ops opportunity at a Series A — owning liquidity end-to-end. Interested, or know someone great?",time:"7:45 AM"}]},
+ {id:5,cat:["focused","connections"],name:"Leah Chen",img:A(45),role:"Founder · Verano",online:false,unread:false,time:"1d",subject:"",
+  messages:[
+   {me:false,t:"Congrats on shipping conduct grades!! Huge.",time:"Yesterday"},
+   {me:true,t:"Thank you Leah! And congrats on the seed — 61 no's is a badge of honor.",time:"Yesterday"},
+   {me:false,t:"😂 the scars are real. We should compare marketplace liquidity notes.",time:"8:20 AM"}]},
+ {id:6,cat:["focused"],name:"Arash Bello",img:A(51),role:"Founder at TrustHire",online:true,unread:false,time:"2d",subject:"",
+  messages:[{me:false,att:true,t:"🎤 Voice message (0:38)",time:"Sat"}]},
+ {id:7,cat:["focused","connections"],name:"Sofia Marti",img:A(24),role:"Recruiting Lead · Verano",online:true,unread:false,time:"2d",subject:"Speak at our Talent Ops meetup?",
+  messages:[
+   {me:false,t:"Hi Amara! We'd love to have you speak at our Talent Ops meetup next month.",time:"Sat"},
+   {me:true,t:"I'd be honored. Send details and I'll make it work.",time:"Sat"}]}
+];
+
+/* ---------- NOTIFICATIONS ---------- */
+const notifs=[
+ {img:A(45),text:"<b>Leah Chen</b> and <b>94 others</b> reacted to your post about shipping Conduct Grades",time:"1h",unread:true,cta:null},
+ {img:A(15),text:"<b>Daniel Reyes</b> sent you a message about verification tooling",time:"2h",unread:true,cta:"Reply"},
+ {img:CO("F","0f766e"),page:true,text:"<b>Fold</b> posted a new role that matches you: <b>Senior PM, Trust Platform</b>",time:"4h",unread:true,cta:"View job"},
+ {img:CO("TL","1e6b62"),page:true,text:"New from <b>The Trust Layer</b>: “Why verification beats referrals in a soft market”",time:"6h",unread:true,cta:null},
+ {img:A(33),text:"This post by <b>Marcus Bell</b> is popular with your network · 521 reactions, 47 comments",time:"9h",unread:true,cta:null},
+ {img:A(47),text:"<b>Grace Adeyemi</b> wants to connect with you",time:"12h",unread:false,cta:"Accept"},
+ {img:CO("V","134e4a"),page:true,text:"Your saved search <b>“Marketplace Operations”</b> has 3 new results",time:"1d",unread:false,cta:"See results"},
+ {img:A(52),text:"<b>Tomás Vega</b> accepted your connection request",time:"2d",unread:false,cta:null}
+];
+
+const certs=[
+ {t:"Trust & Safety Foundations",i:"Roster Learning · Issued Jan 2026"},
+ {t:"Marketplace Dynamics",i:"Reforge · Issued 2024"},
+ {t:"Data-Informed Product Leadership",i:"Reforge · Issued 2023"}
+];
+const skills=[
+ {n:"Marketplace strategy",e:"99+"},{n:"Trust & Safety",e:"64"},{n:"Product management",e:"88"},
+ {n:"Go-to-market",e:"51"},{n:"Fundraising",e:"37"},{n:"Operations",e:"72"},{n:"AI product design",e:"29"}
+];
+const myActivity=[
+ {tag:"Amara reposted this",body:"We shipped Conduct Grades this week. Every employer on SkillFleet now carries a public grade based on how they treat candidates.",stats:"912 reactions · 104 comments"},
+ {tag:"Amara commented on this",body:"This is literally the thesis. Portable, verified reputation > another panel round. Would love to compare notes.",stats:"487 reactions · 63 comments"}
+];
+
+/* ============================================================ RENDER ============================================================ */
+function esc(t){return t.replace(/#(\w+)/g,'<span class="tag">#$1</span>');}
+function faces(r){return r.map(x=>`<span class="${reactMap[x].c}">${reactMap[x].e}</span>`).join("");}
+function trunc(b){return b.length<=260?esc(b):esc(b.slice(0,260))+'<span class="post-more">…more</span>';}
+
+function embedHtml(p){
+ if(p.doc)return `<div class="embed-doc"><div class="embed-doc-page"><h5>${p.doc.title}</h5><p>${p.doc.blurb}</p><span class="pg">${p.doc.page}</span></div><div class="embed-doc-bar"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h9l5 5v15H6z" opacity=".25"/><path d="M6 2h9l5 5v15H6z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><div><b>${p.doc.title.slice(0,30)}.pdf</b><small>Document · ${p.doc.page.split(' / ')[1]} pages</small></div></div></div>`;
+ if(p.link)return `<div class="embed-link"><img src="${p.link.img}" alt=""><div class="eb"><small>${p.link.sub}</small><b>${p.link.title}</b></div></div>`;
+ if(p.nl)return `<div class="embed-nl"><div class="embed-nl-ic"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="2"/></svg></div><div><b>${p.nl.title}</b><small>${p.nl.sub}</small></div><button class="embed-nl-btn">Subscribe</button></div>`;
+ return "";
+}
+function renderPost(p,i){
+ const cl=(p.cl||[]).map(c=>`<div class="comment"><img src="${c.img}"><div style="flex:1"><div class="comment-bubble"><div class="cname">${c.name}<small>1st</small></div><div class="crole">${c.role}</div><p>${c.text}</p></div><div class="comment-tools"><button>Like</button><button>Reply</button></div></div></div>`).join("");
+ const isPage=p.type==="page"||p.type==="promoted"||p.type==="repost";
+ let right="";
+ if(p.type==="promoted") right=`<div class="post-menu"><button><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button></div>`;
+ else if(p.follow||p.type==="page") right=`<button class="post-follow"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Follow</button>`;
+ else if(p.follow===undefined&&p.conn==="2nd"&&p.type==="person"&&p.follow!==false) right="";
+ else right=`<div class="post-menu"><button><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button></div>`;
+ if(p.follow&&p.type==="person") right=`<button class="post-follow"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Follow</button>`;
+
+ return `<div class="card post" data-i="${i}">
+   ${p.type==="repost"?`<div class="repost-ctx"><svg viewBox="0 0 24 24" fill="none"><path d="M4 10V8a3 3 0 0 1 3-3h9m0 0-3-3m3 3-3 3M20 14v2a3 3 0 0 1-3 3H8m0 0 3 3m-3-3 3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><b>${p.reposter}</b> reposted this</div>`:""}
+   <div class="post-head ${isPage?'page':''}">
+     <img src="${p.img}" alt="">
+     <div class="post-meta">
+       <div class="post-author"><b>${p.name}</b>${p.conn?`<span class="conn">${p.conn}</span>`:''}</div>
+       <div class="post-sub">${p.role}</div>
+       ${p.type==="promoted"?'<div class="promoted-tag">Promoted</div>':`<div class="post-time">${p.time} · <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 8v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>`}
+     </div>
+     ${right}
+   </div>
+   ${p.pageFollow?`<div class="post-ctx"><b>${p.pageFollow}</b></div>`:""}
+   <div class="post-body">${trunc(p.body)}</div>
+   ${p.img_post?`<img class="post-img" src="${p.img_post}" alt="">`:""}
+   ${embedHtml(p)}
+   <div class="post-stats">
+     <div class="react-faces"><div class="react-icons">${faces(p.reacts)}</div><span class="likecount">${p.likes.toLocaleString()}</span></div>
+     <div><a class="ccount">${p.comments} comments</a>${p.reposts?`<span class="sep">·</span><a>${p.reposts} reposts</a>`:''}</div>
+   </div>
+   <div class="post-actions">
+     <button class="pact like-btn ${p.liked?'liked':''}"><svg viewBox="0 0 24 24" fill="${p.liked?'currentColor':'none'}"><path d="M7 10v10H4V10h3Zm3 0 2.5-6c1.3 0 2.3 1.1 2 2.4L14 10h4.5c1.2 0 2.1 1.1 1.8 2.3l-1.6 6c-.2 1-1.1 1.7-2.1 1.7H10V10Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Like</span></button>
+     <button class="pact comment-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v10H9l-5 4V5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Comment</span></button>
+     <button class="pact repost-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M4 10V8a3 3 0 0 1 3-3h9m0 0-3-3m3 3-3 3M20 14v2a3 3 0 0 1-3 3H8m0 0 3 3m-3-3 3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Repost</span></button>
+     <button class="pact send-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M21 3 3 11l7 2 2 7 9-17Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Send</span></button>
+   </div>
+   <div class="comments" style="display:none">
+     <div class="comment-compose"><img src="https://i.pravatar.cc/60?img=12"><div class="comment-input"><input placeholder="Add a comment…"><button class="send-comment"><svg viewBox="0 0 24 24" fill="none"><path d="M21 3 3 11l7 2 2 7 9-17Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></div></div>
+     <div class="comment-thread">${cl}</div>
+   </div>
+ </div>`;
+}
+function mountFeed(){document.getElementById("feedStream").innerHTML=posts.map(renderPost).join("");bindPosts();}
+function bindPosts(){
+ document.querySelectorAll(".post").forEach(el=>{
+  const p=posts[+el.dataset.i];
+  const more=el.querySelector(".post-more");if(more)more.onclick=()=>el.querySelector(".post-body").innerHTML=esc(p.body);
+  const lb=el.querySelector(".like-btn");
+  lb.onclick=()=>{p.liked=!p.liked;lb.classList.toggle("liked",p.liked);lb.querySelector("svg").setAttribute("fill",p.liked?"currentColor":"none");p.likes+=p.liked?1:-1;el.querySelector(".likecount").textContent=p.likes.toLocaleString();};
+  const rb=el.querySelector(".repost-btn");rb.onclick=()=>{rb.classList.toggle("reposted");toast(rb.classList.contains("reposted")?"Reposted to your feed":"Repost removed");};
+  el.querySelector(".send-btn").onclick=()=>toast("Opening share…");
+  const nb=el.querySelector(".embed-nl-btn");if(nb)nb.onclick=()=>{nb.classList.toggle("on");nb.textContent=nb.classList.contains("on")?"Subscribed":"Subscribe";toast(nb.classList.contains("on")?"Subscribed":"Unsubscribed");};
+  const fol=el.querySelector(".post-follow");if(fol)fol.onclick=()=>{fol.classList.toggle("following");fol.innerHTML=fol.classList.contains("following")?"Following":'<svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Follow';toast(fol.classList.contains("following")?"Following":"Unfollowed");};
+  const box=el.querySelector(".comments");
+  const tog=()=>{const o=box.style.display!=="none";box.style.display=o?"none":"block";if(!o)box.querySelector("input").focus();};
+  el.querySelector(".comment-btn").onclick=tog;el.querySelector(".ccount").onclick=tog;
+  const inp=box.querySelector("input");
+  const add=()=>{const v=inp.value.trim();if(!v)return;const t=box.querySelector(".comment-thread");const n=document.createElement("div");n.className="comment";n.innerHTML=`<img src="https://i.pravatar.cc/60?img=12"><div style="flex:1"><div class="comment-bubble"><div class="cname">Amara Okafor<small>now</small></div><div class="crole">Founder & CEO at SkillFleet</div><p></p></div><div class="comment-tools"><button>Like</button><button>Reply</button></div></div>`;n.querySelector("p").textContent=v;t.appendChild(n);inp.value="";p.comments++;el.querySelector(".ccount").textContent=p.comments+" comments";toast("Comment posted");};
+  box.querySelector(".send-comment").onclick=add;inp.addEventListener("keydown",e=>{if(e.key==="Enter")add();});
+ });
+}
+function mountNews(){document.getElementById("newsList").innerHTML=news.map(n=>`<div class="news-item"><div class="news-dot"></div><div><b>${n.t}</b><small>${n.m}</small></div></div>`).join("");}
+function mountRailSuggest(){document.getElementById("railSuggest").innerHTML=railSuggest.map((s,i)=>`<div class="sugg ${s.page?'page':''}"><img src="${s.img}"><div class="sugg-info"><b>${s.name}</b><small>${s.role}</small><button class="btn-connect" data-i="${i}"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Follow</button></div></div>`).join("");document.querySelectorAll("#railSuggest .btn-connect").forEach(b=>b.onclick=()=>{if(b.classList.contains("pending"))return;b.classList.add("pending");b.textContent="Following";toast("Following");});}
+
+/* NETWORK */
+function pymkCard(p){return `<div class="pymk"><div class="pymk-cover" style="background:linear-gradient(120deg,#${p.c},#0f766e)"></div><button class="pymk-x"><svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>${p.otw?`<span class="otw">${p.otw}</span>`:''}<img class="pymk-ava" src="${p.img}"><div class="pymk-body"><b>${p.name}</b><small>${p.role}</small><div class="mut">${p.mut?`<svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/></svg>${p.mut}`:''}</div><button class="pymk-connect">${p.act==="Follow"?"Follow":"Connect"}</button></div></div>`;}
+function bindCards(sel){document.querySelectorAll(sel+" .pymk").forEach(c=>{const b=c.querySelector(".pymk-connect");b.onclick=()=>{if(b.classList.contains("pending"))return;b.classList.add("pending");b.textContent=b.textContent==="Follow"?"Following":"Pending";toast(b.textContent==="Following"?"Following":"Invitation sent");};c.querySelector(".pymk-x").onclick=()=>{c.style.transition=".2s";c.style.opacity="0";c.style.transform="scale(.9)";setTimeout(()=>c.remove(),200);};});}
+function mountNetwork(){
+ const il=document.getElementById("inviteList");
+ il.innerHTML=invites.map(v=>`<div class="invite ${v.page?'page':''}"><img src="${v.img}"><div class="invite-info"><b>${v.name}</b><small>${v.role}</small><div class="mut">${v.mut}</div></div><div class="invite-btns"><button class="btn-pill btn-ghost ignore">Ignore</button><button class="btn-pill btn-solid accept">${v.page?'Subscribe':'Accept'}</button></div></div>`).join("");
+ let c=invites.length;
+ il.querySelectorAll(".invite").forEach(row=>{const rm=m=>{row.style.transition=".2s";row.style.opacity="0";setTimeout(()=>{row.remove();c--;document.getElementById("inviteCount").textContent=c;if(c===0)il.innerHTML='<div class="empty"><b>No pending invitations</b>You\'re all caught up.</div>';},200);toast(m);};row.querySelector(".accept").onclick=()=>rm("Done");row.querySelector(".ignore").onclick=()=>rm("Ignored");});
+ document.getElementById("hiringGrid").innerHTML=hiring.map(pymkCard).join("");bindCards("#hiringGrid");
+ document.getElementById("pymkGrid").innerHTML=pymk.map(pymkCard).join("");bindCards("#pymkGrid");
+}
+
+/* JOBS */
+let curJob=null,jobFilter="all",savedJobs=new Set();
+function jm(j){return jobFilter==="all"||(jobFilter==="remote"&&j.loc.toLowerCase().includes("remote"))||(jobFilter==="easy"&&j.easy)||(jobFilter==="verified"&&j.verified);}
+function mountJobs(){
+ const list=document.getElementById("jobList");const shown=jobs.filter(jm);
+ document.getElementById("jobCount").textContent=shown.length+" results";
+ list.innerHTML=shown.map(j=>`<div class="job-item ${curJob===j.id?'sel':''}" data-id="${j.id}"><img class="job-logo" src="${j.logo}"><div class="job-info"><div class="job-title">${j.title}</div><div class="job-co">${j.co}</div><div class="job-loc">${j.loc}</div><div class="job-tags">${j.easy?'<span class="job-tag easy">⚡ Easy Apply</span>':''}${j.tags.map(t=>`<span class="job-tag">${t}</span>`).join("")}</div>${j.conns?`<div class="job-conns"><div class="faces"><img src="${A(15)}"><img src="${A(20)}"><img src="${A(33)}"></div>${j.conns} connections work here</div>`:''}<div class="job-foot"><small>${j.posted}${j.early?' · Be an early applicant':' · '+j.applicants}</small>${j.verified?`<span class="job-verify"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Verified · ${j.grade}</span>`:''}</div></div><button class="job-save ${savedJobs.has(j.id)?'saved':''}" data-save="${j.id}"><svg viewBox="0 0 24 24" fill="none"><path d="M6 4h12v16l-6-3.5L6 20V4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></div>`).join("");
+ list.querySelectorAll(".job-item").forEach(r=>r.onclick=e=>{if(e.target.closest(".job-save"))return;selectJob(+r.dataset.id);});
+ list.querySelectorAll(".job-save").forEach(b=>b.onclick=e=>{e.stopPropagation();const id=+b.dataset.save;if(savedJobs.has(id)){savedJobs.delete(id);b.classList.remove("saved");toast("Removed from saved");}else{savedJobs.add(id);b.classList.add("saved");toast("Job saved");}});
+ document.getElementById("recentSearches").innerHTML=recentSearches.map(s=>`<div class="recent-search"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3-3" stroke="currentColor" stroke-width="2"/></svg><div><b>${s.q}</b><small>${s.loc}</small></div></div>`).join("");
+ if(!curJob&&shown.length)selectJob(shown[0].id);else if(curJob)renderJobDetail(jobs.find(j=>j.id===curJob));
+}
+function selectJob(id){curJob=id;document.querySelectorAll(".job-item").forEach(r=>r.classList.toggle("sel",+r.dataset.id===id));renderJobDetail(jobs.find(j=>j.id===id));}
+function renderJobDetail(j){
+ const saved=savedJobs.has(j.id);
+ document.getElementById("jobDetail").innerHTML=`<div class="jd-head"><div class="jd-co"><img src="${j.logo}"><div><b>${j.co}</b><small>${j.loc}</small></div></div><div class="jd-title">${j.title}</div><div class="jd-sub">${j.type}<span class="dot">·</span>${j.posted}<span class="dot">·</span>${j.applicants}</div>${j.conns?`<div class="jd-conns"><div class="faces"><img src="${A(15)}"><img src="${A(20)}"><img src="${A(33)}"></div>${j.conns} connections work here</div>`:''}<div class="jd-hl"><div class="jd-hl-item"><b>${j.salary}</b><span>Verified salary band</span></div><div class="jd-hl-item"><b>${j.tags[0]}</b><span>Work type</span></div></div><div class="jd-btns"><button class="jd-apply" data-apply="${j.id}"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${j.easy?'Easy Apply':'Apply'}</button><button class="jd-savebtn" data-sb="${j.id}">${saved?'Saved':'Save'}</button></div></div>${j.verified?`<div class="jd-trust"><div class="jd-trust-head"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Employer conduct grade<span class="jd-trust-grade">${j.grade}</span></div><p>Based on verified candidate reports: median first-response under 48h, low ghosting rate, and structured feedback after rejections. This employer treats candidates well.</p></div>`:''}<div class="jd-section"><h4>About the role</h4><p>${j.desc}</p></div><div class="jd-section"><h4>What you'll do</h4><ul>${j.resp.map(r=>`<li>${r}</li>`).join("")}</ul></div><div class="jd-section"><h4>What we're looking for</h4><ul>${j.skills.map(s=>`<li>${s}</li>`).join("")}</ul></div>`;
+ document.querySelector(`[data-apply="${j.id}"]`).onclick=()=>toast("Application started — good luck!");
+ const sb=document.querySelector(`[data-sb="${j.id}"]`);sb.onclick=()=>{if(savedJobs.has(j.id)){savedJobs.delete(j.id);sb.textContent="Save";toast("Removed from saved");}else{savedJobs.add(j.id);sb.textContent="Saved";toast("Job saved");}mountJobs();};
+}
+document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));c.classList.add("on");jobFilter=c.dataset.filter;curJob=null;mountJobs();});
+
+/* MESSAGING */
+let curConv=null,msgTab="focused";
+function mountConvos(){
+ const shown=convos.filter(c=>msgTab==="focused"?true:c.cat.includes(msgTab));
+ document.getElementById("convList").innerHTML=shown.map(c=>`<div class="msg-conv ${c.unread?'unread':''} ${curConv===c.id?'sel':''}" data-id="${c.id}"><div class="msg-conv-ava"><img src="${c.img}">${c.online?'<span class="on"></span>':''}</div><div class="msg-conv-body"><div class="msg-conv-top"><b>${c.name}</b><small>${c.time}</small></div>${c.sponsored?'<div class="spon">Sponsored</div>':''}<div class="msg-conv-prev">${c.messages[c.messages.length-1].me?'You: ':''}${(c.subject||c.messages[c.messages.length-1].t).replace(/\n/g,' ')}</div></div></div>`).join("")||'<div class="empty"><b>Nothing here yet</b></div>';
+ document.querySelectorAll(".msg-conv").forEach(el=>el.onclick=()=>openConv(+el.dataset.id));
+}
+document.querySelectorAll(".msg-tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".msg-tabs button").forEach(x=>x.classList.remove("on"));b.classList.add("on");msgTab=b.dataset.tab;mountConvos();});
+function openConv(id){curConv=id;const c=convos.find(x=>x.id===id);c.unread=false;document.getElementById("msgWrap").classList.add("showthread");document.querySelectorAll(".msg-conv").forEach(el=>{el.classList.toggle("sel",+el.dataset.id===id);if(+el.dataset.id===id)el.classList.remove("unread");});renderThread(c);updateMsgBadge();}
+function renderThread(c){
+ const body=c.messages.map(m=>`<div class="bubble-row ${m.me?'me':'them'}">${m.me?'':`<img src="${c.img}">`}<div class="bubble ${m.att?'att':''}">${m.att?`<svg viewBox="0 0 24 24" fill="none"><path d="M8 12l6-6a3 3 0 0 1 4 4l-8 8a5 5 0 0 1-7-7l8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`:''}${m.t}</div></div>`).join("");
+ document.getElementById("msgThread").innerHTML=`<div class="msg-thread-head"><button class="msg-back" id="msgBack"><svg viewBox="0 0 24 24" fill="none"><path d="m15 5-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><img src="${c.img}"><div style="flex:1"><b>${c.name}</b><small>${c.online?'Active now':'Offline'} · ${c.role}</small></div><button class="iconbtn"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button></div>${c.subject?`<div class="msg-subject">Subject: ${c.subject}</div>`:''}<div class="msg-body" id="msgBody"><div class="msg-day">Today</div>${body}</div><div class="msg-compose"><textarea id="msgInput" placeholder="Write a message…" rows="1"></textarea><button class="msg-send" id="msgSend"><svg viewBox="0 0 24 24" fill="none"><path d="M21 3 3 11l7 2 2 7 9-17Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button></div>`;
+ const mb=document.getElementById("msgBody");mb.scrollTop=mb.scrollHeight;
+ const inp=document.getElementById("msgInput");
+ const send=()=>{const v=inp.value.trim();if(!v)return;c.messages.push({me:true,t:v,time:"now"});renderThread(c);mountConvos();document.querySelector(`.msg-conv[data-id="${c.id}"]`)?.classList.add("sel");};
+ document.getElementById("msgSend").onclick=send;
+ inp.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();}});
+ inp.addEventListener("input",()=>{inp.style.height="auto";inp.style.height=Math.min(inp.scrollHeight,120)+"px";});
+ document.getElementById("msgBack").onclick=()=>document.getElementById("msgWrap").classList.remove("showthread");
+}
+
+/* NOTIFS */
+function mountNotifs(){
+ document.getElementById("notifList").innerHTML=notifs.map((n,i)=>`<div class="notif ${n.unread?'unread':''} ${n.page?'page':''}" data-i="${i}"><img src="${n.img}"><div class="notif-body"><p>${n.text}</p>${n.cta?`<button class="notif-cta">${n.cta}</button>`:''}<small>${n.time} ago</small></div></div>`).join("");
+ document.querySelectorAll(".notif").forEach(el=>{el.onclick=()=>{const i=+el.dataset.i;if(notifs[i].unread){notifs[i].unread=false;el.classList.remove("unread");updateNotifBadge();}};const c=el.querySelector(".notif-cta");if(c)c.onclick=e=>{e.stopPropagation();toast("Done");};});
+ document.getElementById("markRead").onclick=()=>{notifs.forEach(n=>n.unread=false);mountNotifs();updateNotifBadge();toast("All marked as read");};
+}
+
+/* PROFILE */
+function mountProfile(){
+ document.getElementById("certList").innerHTML=certs.map(c=>`<div class="cert"><div class="cert-logo"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18V7l8-4 8 4v11" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 21v-6h6v6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div><div><b>${c.t}</b><small>${c.i}</small></div></div>`).join("");
+ document.getElementById("skillGrid").innerHTML=skills.map(s=>`<span class="skill">${s.n} <b class="endo">${s.e}</b></span>`).join("");
+ document.getElementById("profActivity").innerHTML=myActivity.map(p=>`<div class="act-post"><span class="tag">${p.tag}</span><div class="ap-body">${p.body}</div><small>${p.stats}</small></div>`).join("");
+ document.getElementById("alsoViewed").innerHTML=[{name:"Sofia Marti",role:"Recruiting Lead at Verano",img:A(24)},{name:"Leah Chen",role:"Founder at Verano",img:A(45)},{name:"Tomás Vega",role:"Founder at HireLoop",img:A(52)}].map(s=>`<div class="sugg"><img src="${s.img}"><div class="sugg-info"><b>${s.name}</b><small>${s.role}</small></div></div>`).join("");
+}
+
+/* NAV */
+function switchView(v){document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));document.getElementById("view-"+v).classList.add("active");document.querySelectorAll(".nav-item").forEach(n=>n.classList.toggle("active",n.dataset.view===v));window.scrollTo(0,0);if(v==="jobs"&&!curJob)mountJobs();if(v==="messaging"&&!curConv&&window.innerWidth>820)openConv(convos[0].id);}
+document.querySelectorAll("[data-view]").forEach(el=>el.addEventListener("click",()=>{switchView(el.dataset.view);document.getElementById("meDropdown").classList.remove("open");}));
+
+/* DROPDOWN + THEME */
+const meBtn=document.getElementById("meBtn"),dd=document.getElementById("meDropdown");
+meBtn.onclick=e=>{e.stopPropagation();dd.classList.toggle("open");};
+document.addEventListener("click",e=>{if(!dd.contains(e.target)&&!meBtn.contains(e.target))dd.classList.remove("open");});
+const tt=document.getElementById("themeToggle");
+tt.onclick=e=>{e.stopPropagation();const d=document.documentElement.getAttribute("data-theme")==="dark";document.documentElement.setAttribute("data-theme",d?"light":"dark");tt.textContent=d?"Switch to dark mode":"Switch to light mode";toast(d?"Light mode on":"Dark mode on");};
+
+/* COMPOSER */
+function newPost(text,img){posts.unshift({type:"person",name:"Amara Okafor",img:A(12),role:"Founder & CEO at SkillFleet",conn:"",time:"now",body:text,img_post:img?"https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=700&h=400&fit=crop":null,likes:0,comments:0,reposts:0,reacts:["like"],liked:false,cl:[]});mountFeed();toast("Post shared to your network");}
+document.getElementById("openComposer").onclick=()=>{const t=prompt("Share an update with your network:");if(t&&t.trim())newPost(t.trim(),false);};
+document.getElementById("composePhoto").onclick=()=>{const t=prompt("Add a caption for your photo:");if(t!==null)newPost(t.trim()||"Sharing something new. 📷",true);};
+document.getElementById("globalSearch").addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.value.trim()){switchView("jobs");toast('Showing results for "'+e.target.value.trim()+'"');}});
+
+/* BADGES + TOAST */
+function updateNotifBadge(){const n=notifs.filter(x=>x.unread).length;const b=document.getElementById("notifBadge");b.textContent=n;b.style.display=n?"block":"none";}
+function updateMsgBadge(){const n=convos.filter(c=>c.unread).length;const b=document.getElementById("msgBadge");b.textContent=n;b.style.display=n?"block":"none";}
+let tmr;function toast(m){const t=document.getElementById("toast");document.getElementById("toastMsg").textContent=m;t.classList.add("show");clearTimeout(tmr);tmr=setTimeout(()=>t.classList.remove("show"),2200);}
+
+/* INIT */
+mountFeed();mountNews();mountRailSuggest();mountNetwork();mountJobs();mountConvos();mountNotifs();mountProfile();updateNotifBadge();updateMsgBadge();
+</script>
+</body>
+</html>

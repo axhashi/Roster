@@ -1,19 +1,23 @@
-Roster
+# Roster
 
-A concept prototype for a trust-first professional network — exploring what hiring could look like if reputation were verified instead of self-reported.
+A concept prototype for a **trust-first professional network** — exploring what hiring could look like if reputation were verified instead of self-reported.
 
-Built as a single, self-contained index.html (no build step, no dependencies) with:
+Built as a single, self-contained `index.html` (no build step, no dependencies) with:
 
-Feed — posts, reactions, reposts, promoted posts, and document/newsletter embeds
-Network — invitations, "people hiring for your role," and suggestions
-Jobs — filters, verified salary bands, and an employer conduct grade (companies scored on how they actually treat candidates)
-Messaging — Focused / Jobs / Unread / Connections / Starred, with subjects and attachments
-Notifications and a full Profile with analytics and an "open to" banner
-Light/dark mode
-Run it
+- **Feed** — posts, reactions, reposts, promoted posts, and document/newsletter embeds
+- **Network** — invitations, "people hiring for your role," and suggestions
+- **Jobs** — filters, verified salary bands, and an **employer conduct grade** (companies scored on how they actually treat candidates)
+- **Messaging** — Focused / Jobs / Unread / Connections / Starred, with subjects and attachments
+- **Notifications** and a full **Profile** with analytics and an "open to" banner
+- Light/dark mode
 
-Open index.html in any browser. That's it.
+## Run it
 
-Live demo
+Open `index.html` in any browser. That's it.
 
-Enabled via GitHub Pages — see the repo's Settings → Pages.
+## Live demo
+
+Enabled via GitHub Pages — see the repo's **Settings → Pages**.
+
+---
+*Prototype. Design and data are illustrative.*
